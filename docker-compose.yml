@@ -1,0 +1,17 @@
+# NOTE: Can remove version of docker
+#version: '3'
+
+services:
+  db:
+    container_name: event-planner-db
+    image: mongo
+    restart: unless-stopped
+    volumes:
+       - event-planner-db-dbdata:/data/db
+       - event-planner-db-dbconfig:/data/configdb
+    ports:
+      - "27017:27017"
+
+volumes:
+  event-planner-db-dbdata:
+  event-planner-db-dbconfig:
