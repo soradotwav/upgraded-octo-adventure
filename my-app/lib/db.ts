@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const MONGODB_URI = "mongodb://localhost:27017/main";
+const MONGODB_URI = "mongodb://localhost:27017";
 
 const connect = async () => {
     const connectionState = mongoose.connection.readyState;
@@ -18,7 +18,7 @@ const connect = async () => {
     try {
         mongoose.connect(MONGODB_URI!, {
             dbName: "event-planner",
-            bufferCommands: false,
+            bufferCommands: true,
         });
         console.log("Connected");
     } catch (error) {
