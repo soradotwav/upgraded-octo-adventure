@@ -3,7 +3,8 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function GET() {
   try {
-    return await getAllEvents();
+    const events = await getAllEvents();
+    return NextResponse.json(events, { status: 200 });
   } catch (error) {
     console.log(error);
     return NextResponse.json({ error: "Error fetching events" }, { status: 500 });
