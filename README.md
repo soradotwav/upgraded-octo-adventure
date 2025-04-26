@@ -10,3 +10,16 @@ University of Washington - Bothell: Save the World 2025 Hackathon
 - https://stackoverflow.com/questions/68864425/how-do-i-search-for-queries-without-case-sensitivity-in-mongoose
 - https://nextjs.org/docs/pages/building-your-application/routing/api-routes
 - https://stackoverflow.com/questions/855767/can-i-use-git-diff-on-untracked-files
+
+
+## Setup
+
+Run 
+
+```bash
+docker compose up
+cd my-app
+npm install (if not already installed)
+npm run dev
+```
+
