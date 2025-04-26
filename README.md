@@ -23,3 +23,7 @@ npm install (if not already installed)
 npm run dev
 ```
 
+# To-Do List
+
+- Write a filter route (GET)
+- (POST) Uploading new event
