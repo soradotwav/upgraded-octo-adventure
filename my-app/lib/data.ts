@@ -1,0 +1,90 @@
+import {EventObject} from "@/lib/models/events";
+
+export const testEvents: EventObject[] = [
+  {
+    id: "evt-001",
+    title: "Annual Tech Conference 2025",
+    body: "Join us for the biggest tech conference of the year featuring keynote speakers, workshops, and networking opportunities.",
+    description: "A three-day immersive experience showcasing the latest in AI, blockchain, and cloud computing.",
+    organizer: "TechCorp Industries",
+    date: new Date("2025-06-15T09:00:00"),
+    location: "San Francisco Convention Center",
+    thumbnail: "https://picsum.photos/1000",
+    attendees: 245,
+    maxAttendees: 500,
+    contact: "events@techcorp.com",
+    price: 299.99,
+    isPublic: true,
+    tags: ["Career", "Workshop", "Academic"]
+  },
+  {
+    id: "evt-002",
+    title: "Community Garden Volunteer Day",
+    body: "Help us plant new vegetables and maintain our community garden space.",
+    description: "A family-friendly event where participants will learn about sustainable gardening practices while beautifying our neighborhood.",
+    organizer: "Green Thumb Community Group",
+    date: new Date("2025-05-10T10:00:00"),
+    location: "Oakridge Community Garden",
+    attendees: 18,
+    maxAttendees: 30,
+    contact: "coordinator@greenthumb.org",
+    isPublic: true,
+    tags: ["Social"]
+  },
+  {
+    id: "evt-003",
+    title: "Executive Board Strategic Planning",
+    body: "Quarterly closed meeting for executive team members to discuss Q3 strategic initiatives.",
+    description: "Confidential planning session to align on priorities and resource allocation for upcoming quarter.",
+    organizer: "Office of the CEO",
+    date: new Date("2025-05-02T13:00:00"),
+    location: "Executive Boardroom - 15th Floor",
+    attendees: 7,
+    maxAttendees: 10,
+    isPublic: false,
+    tags: ["Career"]
+  },
+  {
+    id: "evt-004",
+    title: "Summer Music Festival",
+    body: "Three stages featuring local and national artists across multiple genres.",
+    description: "Our annual outdoor music celebration with food vendors, art installations, and family activities.",
+    organizer: "SoundWaves Productions",
+    date: new Date("2025-07-18T12:00:00"),
+    location: "Riverfront Park",
+    thumbnail: "https://picsum.photos/1000",
+    attendees: 1240,
+    maxAttendees: 2000,
+    contact: "tickets@soundwaves.com",
+    price: 45.50,
+    isPublic: true,
+    tags: ["Arts", "Social"]
+  },
+  {
+    id: "evt-005",
+    title: "Virtual Book Club: May Selection",
+    body: "Discussion of 'The Quantum Horizon' by Dr. Eliza Chen.",
+    description: "Monthly online gathering to analyze themes, characters, and writing style of our latest book selection.",
+    organizer: "Digital Bookworms",
+    date: new Date("2025-05-20T19:00:00"),
+    attendees: 23,
+    contact: "bookclub@digitalbookworms.net",
+    isPublic: true,
+    tags: ["Academic", "Social"]
+  },
+  {
+    id: "evt-006",
+    title: "Product Launch: NextGen Smart Home Suite",
+    body: "Exclusive preview of our revolutionary smart home ecosystem for industry partners and press.",
+    description: "Be the first to experience our integrated solution that combines security, energy management, and lifestyle automation.",
+    organizer: "HomeTech Innovations",
+    date: new Date("2025-05-30T18:00:00"),
+    location: "The Grand Hotel Ballroom",
+    thumbnail: "https://picsum.photos/1000",
+    attendees: 87,
+    maxAttendees: 150,
+    contact: "launch@hometech.com",
+    isPublic: false,
+    tags: ["Career", "Workshop"]
+  }
+];
