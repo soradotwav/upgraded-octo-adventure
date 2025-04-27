@@ -5,7 +5,7 @@ const nextConfig: NextConfig = {
       remotePatterns: [
           {
               protocol: 'https',
-              hostname: 'picsum.photos',
+              hostname: 'random-image-pepebigotes.vercel.app',
               pathname: '/**',
           },
       ]
