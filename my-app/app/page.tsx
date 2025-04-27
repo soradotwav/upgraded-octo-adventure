@@ -6,8 +6,14 @@ import {Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle} f
 import {Calendar, ChevronRight, Clock, MapPin, TrendingUp, Users} from "lucide-react";
 
 export default function HomePage() {
-    const upcomingEvents = testEvents.slice(0, 3);
+    const loggedIn = false;
 
+    if(!loggedIn) return DefaultHomePage();
+    else return UserHomePage();
+}
+
+function DefaultHomePage() {
+    const upcomingEvents = testEvents.slice(0, 3);
 
     return (
         <div className="flex min-h-screen flex-col bg-gray-50">
@@ -248,4 +254,20 @@ export default function HomePage() {
             </section>
         </div>
     );
+}
+
+function UserHomePage() {
+    const myEvents = [
+        testEvents[0], // Computer Science Career Fair
+        testEvents[2], // Art Exhibition
+        testEvents[3], // Research Symposium
+    ];
+
+    const recommendedEvents = [
+        testEvents[1], // Spring Football Game
+        testEvents[4], // Alumni Networking Mixer
+        testEvents[6], // Jazz Ensemble Concert
+    ];
+
+    return <></>;
 }
