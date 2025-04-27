@@ -1,20 +1,32 @@
-import {testEvents, testStudent} from "@/lib/data";
-import {Button} from "@/components/ui/button";
+'use server';
+
+import { cookies } from "next/headers";
+import { testEvents, testStudent } from "@/lib/data";
+import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import Image from "next/image";
-import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs"
-import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar"
-import {Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle} from "@/components/ui/card";
-import {Calendar, ChevronRight, Clock, MapPin, Plus, Star, TrendingUp, Users} from "lucide-react";
-import {Progress} from "@/components/ui/progress";
-import {Badge} from "@/components/ui/badge";
-import {formatDate} from "@/components/util-functions";
+import Image from "next/image"; import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Calendar, ChevronRight, Clock, MapPin, Plus, Star, TrendingUp, Users } from "lucide-react";
+import { Progress } from "@/components/ui/progress";
+import { Badge } from "@/components/ui/badge";
+import { formatDate } from "@/components/util-functions";
 
-export default function HomePage() {
-    const loggedIn = true;
+export default async function HomePage() {
+    const cookieStore = await cookies();
+    const log = (await cookieStore).get("user-login-token");
 
-    if(!loggedIn) return DefaultHomePage();
-    else return UserHomePage();
+    console.log(log);
+
+    if (log === null || log === undefined) {
+        return DefaultHomePage();
+    }
+
+    if (log.value === "true") {
+        return UserHomePage();
+    }
+
+    return DefaultHomePage();
 }
 
 function DefaultHomePage() {
@@ -26,7 +38,7 @@ function DefaultHomePage() {
             <section className="relative bg-[#4b2e83] text-white">
                 <div className="flex flex-col md:flex-row">
                     <div className="md:w-[60%] flex flex-col justify-center py-12 md:py-20 px-4 md:ml-auto md:mr-0"
-                         style={{maxWidth: "calc(60% - ((100% - 1280px) / 2))", marginLeft: "auto"}}>
+                        style={{ maxWidth: "calc(60% - ((100% - 1280px) / 2))", marginLeft: "auto" }}>
                         <h1 className="mb-4 text-3xl font-bold leading-tight md:text-4xl lg:text-5xl">
                             Welcome to the UW Bothell Events Portal
                         </h1>
