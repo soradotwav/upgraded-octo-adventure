@@ -1,3 +1,4 @@
+"use client"
 import Image from "next/image"
 import Link from "next/link"
 import {Bell, Calendar, Compass, Home, Menu, Search, User} from "lucide-react"
@@ -13,8 +14,11 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Badge } from "@/components/ui/badge"
+import {useRouter} from "next/navigation";
 
 export function Header() {
+  const router = useRouter();
+
   return (
       <header className="sticky top-0 z-10 h-16 border-b bg-white px-4 shadow-sm">
         <div className="mx-auto flex h-full w-full items-center justify-between">
@@ -24,7 +28,7 @@ export function Header() {
               <div className="relative h-10 w-10">
                 <Image src="/uw-logo.png?height=40&width=40" alt="UW" fill className="object-contain" priority />
               </div>
-              <div>
+              <div onClick={() => router.push("/")}>
                 <h1 className="text-lg font-bold text-[#4b2e83]">UW Events</h1>
                 <p className="text-xs text-[#4b2e83]/70">University of Washington</p>
               </div>
@@ -33,7 +37,7 @@ export function Header() {
             {/* Navigation - Center aligned */}
             <nav className="hidden md:block">
               <div className="flex items-center space-x-1">
-                <Button variant="ghost" size="sm" className="text-gray-700 hover:text-[#4b2e83]">
+                <Button variant="ghost" size="sm" className="text-gray-700 hover:text-[#4b2e83]" onClick={() => router.push('/')}>
                   <Home className="mr-1 h-4 w-4" />
                   Home
                 </Button>
@@ -41,7 +45,7 @@ export function Header() {
                   <Calendar className="mr-1 h-4 w-4" />
                   My Calendar
                 </Button>
-                <Button variant="ghost" size="sm" className="text-gray-700 hover:text-[#4b2e83]">
+                <Button variant="ghost" size="sm" className="text-gray-700 hover:text-[#4b2e83]" onClick={() => router.push('/discover')}>
                   <Compass className="mr-1 h-4 w-4" />
                   Discover
                 </Button>
