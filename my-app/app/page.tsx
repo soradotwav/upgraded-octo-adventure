@@ -5,8 +5,6 @@ import { testEvents } from "@/lib/data"
 
 export default function EventsPortal() {
   return (
-    <div className="flex min-h-screen flex-col bg-gray-50">
-      <Header />
       <div className="flex flex-1">
         <FilterSidebar />
         <main className="flex-1 p-6">
@@ -17,7 +15,6 @@ export default function EventsPortal() {
             ))}
           </div>
         </main>
-      </div>
     </div>
   )
 }
