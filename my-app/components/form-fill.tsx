@@ -8,16 +8,28 @@ import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Slider } from "@/components/ui/slider"
 
-export function FilterSidebar() {
+export function FormFill() {
   return (
     <aside className="w-72 border-r bg-white p-6 sticky top-16 h-fit">
-      <h2 className="mb-4 text-lg font-semibold text-[#4b2e83]">Filters'
-        <Button className="bg-[#b7a57a] hover:bg-[#b7a57a]/90 absolute top-6 right-6 w-25 h-12">Compose</Button>
-      </h2>
+      <h2  className="mb-4 text-lg font-semibold text-[#4b2e83]">Compose an Event</h2>
 
-      <div className="space-y-6">
+      <div className="space-y-2">
+        <h3 className="mb-1 text-sm font-medium text-gray-700">Event Name</h3>
+        <Input></Input>
+        <h3 className="mb-1 text-sm font-medium text-gray-700">Body/Description</h3>
+        <Input></Input>
+        <h3 className="mb-1 text-sm font-medium text-gray-700">Location</h3>
+        <Input></Input>
+        <h3 className="mb-1 text-sm font-medium text-gray-700">Max Attendees</h3>
+        <Input></Input>
+        <h3 className="mb-1 text-sm font-medium text-gray-700">Price</h3>
+        <Input></Input>
+        <h3 className="mb-1 text-sm font-medium text-gray-700">Organizer</h3>
+        <Input></Input>
+        <h3 className="mb-1 text-sm font-medium text-gray-700">Contact</h3>
+        <Input></Input>
         <div>
-          <h3 className="mb-3 text-sm font-medium text-gray-700">Event Tags</h3>
+          <h3 className="mb-1 text-sm font-medium text-gray-700">Event Tags</h3>
           <div className="flex flex-wrap gap-2">
             <Badge variant="outline" className="bg-[#4b2e83]/10 hover:bg-[#4b2e83]/20">
               Academic
@@ -98,8 +110,22 @@ export function FilterSidebar() {
             </div>
           </div>
         </div>
+        <div className="p-2">
+          <input
+            type="file"
+            className="block w-full text-sm text-gray-500
+                      file:mr-4 file:py-2 file:px-4
+                      file:rounded-full file:border-0
+                      file:text-sm file:font-semibold
+                      file:bg-blue-50 file:text-blue-700
+                      hover:file:bg-blue-100"
+          />
+        </div>
+        <Button className="flex space-x-2 w-full bg-[#4b2e83] hover:bg-[#4b2e83]/90">Submit</Button>
+        <Button className="flex space-x-2 w-full bg-[#4b2e83] hover:bg-[#4b2e83]/90">Save as Draft</Button>
 
-        <Button className="w-full bg-[#4b2e83] hover:bg-[#4b2e83]/90">Apply Filters</Button>
+
+
       </div>
     </aside>
   )
