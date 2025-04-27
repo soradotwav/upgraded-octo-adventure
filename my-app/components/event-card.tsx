@@ -8,8 +8,8 @@ import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
 import {EventObject} from "@/lib/models/events";
 import EventDetailModal from "@/components/event-modal";
 import {useState} from "react";
-import {toast} from "sonner";
-import {confirmRSVP, formatDate} from "@/components/util-functions";
+import {confirmRSVP} from "@/components/util-functions";
+import FormattedDate from "@/components/formatted-date";
 
 export function EventCard({ event }: { event: EventObject }) {
   const [showDetails, setShowDetails] = useState(false);
@@ -37,9 +37,7 @@ export function EventCard({ event }: { event: EventObject }) {
                     <div className="mt-1 flex items-center gap-4 text-sm text-gray-600">
                       <div className="flex items-center gap-1">
                         <Calendar className="h-4 w-4" />
-                        <span>
-                          {formatDate(event.date)}
-                        </span>
+                        <FormattedDate date={event.date} />
                       </div>
                       <div className="flex items-center gap-1">
                         <MapPin className="h-4 w-4" />

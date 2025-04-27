@@ -1,16 +1,19 @@
-'use server';
-
+"use client"
 import { cookies } from "next/headers";
-import { testEvents, testStudent } from "@/lib/data";
-import { Button } from "@/components/ui/button";
+import {testEvents, testStudent} from "@/lib/data";
+import {Button} from "@/components/ui/button";
 import Link from "next/link";
-import Image from "next/image"; import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Calendar, ChevronRight, Clock, MapPin, Plus, Star, TrendingUp, Users } from "lucide-react";
-import { Progress } from "@/components/ui/progress";
-import { Badge } from "@/components/ui/badge";
-import { formatDate } from "@/components/util-functions";
+import Image from "next/image";
+import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs"
+import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar"
+import {Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle} from "@/components/ui/card";
+import {Calendar, ChevronRight, Clock, MapPin, Plus, Star, TrendingUp, Users} from "lucide-react";
+import {Progress} from "@/components/ui/progress";
+import {Badge} from "@/components/ui/badge";
+import FormattedDate from "@/components/formatted-date";
+import {useState} from "react";
+import ManageInterestsDialog from "@/components/manage-interests-dialog";
+import {useUser} from "@/hooks/useUser";
 
 export default async function HomePage() {
     const cookieStore = await cookies();
@@ -50,7 +53,7 @@ function DefaultHomePage() {
                             <Button className="bg-[#b7a57a] text-white hover:bg-[#b7a57a]/90 hover:cursor-pointer">
                                 <Link href="/discover">Browse Events</Link>
                             </Button>
-                            <Button variant="outline" className="border-white bg-transparent text-white hover:bg-white/10 hover:cursor-pointer">
+                            <Button variant="outline" className="border-white bg-transparent text-white hover:text-[#4b2e83] hover:cursor-pointer">
                                 <Link href="/">View Calendar</Link>
                             </Button>
                         </div>
@@ -135,7 +138,7 @@ function DefaultHomePage() {
                                     <CardTitle className="text-lg font-bold text-[#4b2e83]">{event.title}</CardTitle>
                                     <CardDescription className="flex items-center gap-1">
                                         <Calendar className="h-3.5 w-3.5" />
-                                        <span>{formatDate(event.date)}</span>
+                                        <FormattedDate date={event.date} />
                                     </CardDescription>
                                 </CardHeader>
                                 <CardContent className="pb-2">
@@ -284,298 +287,313 @@ function UserHomePage() {
         greeting = "Good evening"
     }
 
+    const [isInterestsDialogOpen, setIsInterestsDialogOpen] = useState(false)
+    const [interests, setInterests] = useState<string[]>(testStudent.interests)
+
     return (
-        <main className="flex-1 pb-12">
-            {/* Welcome Banner */}
-            <section className="bg-[#4b2e83] py-8 text-white">
-                <div className="container mx-auto px-4">
-                    <div className="flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
-                        <div className="flex items-center gap-4">
-                            <Avatar className="h-16 w-16 border-2 border-white">
-                                <AvatarImage src={testStudent.avatar || "/placeholder.svg"} alt={testStudent.name} />
-                                <AvatarFallback className="bg-[#b7a57a] text-white">AJ</AvatarFallback>
-                            </Avatar>
-                            <div>
-                                <h1 className="text-2xl font-bold">
-                                    {greeting}, {testStudent.name}!
-                                </h1>
-                                <p className="text-white/80">
-                                    {testStudent.year} • {testStudent.major}
-                                </p>
+        <>
+            <main className="flex-1 pb-12">
+                {/* Welcome Banner */}
+                <section className="bg-[#4b2e83] py-8 text-white">
+                    <div className="container mx-auto px-4">
+                        <div className="flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
+                            <div className="flex items-center gap-4">
+                                <Avatar className="h-16 w-16 border-2 border-white">
+                                    <AvatarImage src={testStudent.avatar || "/placeholder.svg"} alt={testStudent.name} />
+                                    <AvatarFallback className="bg-[#b7a57a] text-white">AJ</AvatarFallback>
+                                </Avatar>
+                                <div>
+                                    <h1 className="text-2xl font-bold">
+                                        {greeting}, {testStudent.name}!
+                                    </h1>
+                                    <p className="text-white/80">
+                                        {testStudent.year} • {testStudent.major}
+                                    </p>
+                                </div>
+                            </div>
+                            <div className="flex gap-3">
+                                <Button className="bg-white text-[#4b2e83] hover:bg-white/90 hover:cursor-pointer">
+                                    <Calendar className="mr-2 h-4 w-4" />
+                                    My Calendar
+                                </Button>
+                                <Button variant="outline" className="border-white bg-transparent text-white hover:bg-white hover:text-[#4b2e83] hover:cursor-pointer">
+                                    <Plus className="mr-2 h-4 w-4" />
+                                    Create Event
+                                </Button>
                             </div>
                         </div>
-                        <div className="flex gap-3">
-                            <Button className="bg-white text-[#4b2e83] hover:bg-white/90 hover:cursor-pointer">
-                                <Calendar className="mr-2 h-4 w-4" />
-                                My Calendar
-                            </Button>
-                            <Button variant="outline" className="border-white bg-transparent text-white hover:bg-white hover:text-[#4b2e83] hover:cursor-pointer">
-                                <Plus className="mr-2 h-4 w-4" />
-                                Create Event
-                            </Button>
-                        </div>
                     </div>
-                </div>
-            </section>
+                </section>
 
-            <div className="container mx-auto px-4 pt-8">
-                <div className="grid gap-8 lg:grid-cols-3">
-                    <div className="lg:col-span-2">
-                        {/* Next Event Alert */}
-                        {nextEvent && (
-                            <Card className="mb-8 border-l-4 border-l-[#b7a57a] bg-[#b7a57a]/5">
-                                <CardHeader className="pb-2">
-                                    <CardTitle className="flex items-center text-lg">
-                                        <Clock className="mr-2 h-5 w-5 text-[#b7a57a]" />
-                                        Your Next Event
-                                    </CardTitle>
-                                </CardHeader>
-                                <CardContent>
-                                    <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                                        <div>
-                                            <h3 className="text-xl font-bold text-[#4b2e83]">{nextEvent.title}</h3>
-                                            <div className="mt-1 flex items-center gap-4 text-sm text-gray-600">
-                                                <div className="flex items-center gap-1">
-                                                    <Calendar className="h-4 w-4" />
-                                                    <span>{formatDate(nextEvent.date)}</span>
-                                                </div>
-                                                <div className="flex items-center gap-1">
-                                                    <MapPin className="h-4 w-4" />
-                                                    <span>{nextEvent.location}</span>
+                <div className="container mx-auto px-4 pt-8">
+                    <div className="grid gap-8 lg:grid-cols-3">
+                        <div className="lg:col-span-2">
+                            {/* Next Event Alert */}
+                            {nextEvent && (
+                                <Card className="mb-8 border-l-4 border-l-[#b7a57a] bg-[#b7a57a]/5">
+                                    <CardHeader className="pb-2">
+                                        <CardTitle className="flex items-center text-lg">
+                                            <Clock className="mr-2 h-5 w-5 text-[#b7a57a]" />
+                                            Your Next Event
+                                        </CardTitle>
+                                    </CardHeader>
+                                    <CardContent>
+                                        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                                            <div>
+                                                <h3 className="text-xl font-bold text-[#4b2e83]">{nextEvent.title}</h3>
+                                                <div className="mt-1 flex items-center gap-4 text-sm text-gray-600">
+                                                    <div className="flex items-center gap-1">
+                                                        <Calendar className="h-4 w-4" />
+                                                        <FormattedDate date={nextEvent.date} />
+                                                    </div>
+                                                    <div className="flex items-center gap-1">
+                                                        <MapPin className="h-4 w-4" />
+                                                        <span>{nextEvent.location}</span>
+                                                    </div>
                                                 </div>
                                             </div>
+                                            <Button className="bg-[#b7a57a] hover:bg-[#b7a57a]/90 hover:cursor-pointer">View Details</Button>
                                         </div>
-                                        <Button className="bg-[#b7a57a] hover:bg-[#b7a57a]/90 hover:cursor-pointer">View Details</Button>
+                                    </CardContent>
+                                </Card>
+                            )}
+
+                            {/* My Events Tabs */}
+                            <div className="mb-8">
+                                <Tabs defaultValue="upcoming">
+                                    <div className="flex items-center justify-between">
+                                        <h2 className="text-xl font-bold text-[#4b2e83]">My Events</h2>
+                                        <TabsList >
+                                            <TabsTrigger className="hover:cursor-pointer" value="upcoming">Upcoming</TabsTrigger>
+                                            <TabsTrigger className="hover:cursor-pointer" value="past">Past</TabsTrigger>
+                                            <TabsTrigger className="hover:cursor-pointer" value="saved">Saved</TabsTrigger>
+                                        </TabsList>
+                                    </div>
+
+                                    <TabsContent value="upcoming" className="mt-4">
+                                        <div className="space-y-4">
+                                            {myEvents.map((event) => (
+                                                <Card key={event.id} className="overflow-hidden">
+                                                    <div className="flex flex-col sm:flex-row">
+                                                        <div className="relative h-[120px] w-full sm:h-auto sm:w-[180px]">
+                                                            <Image
+                                                                src={event.thumbnail || "/placeholder.svg"}
+                                                                alt={event.title}
+                                                                fill
+                                                                className="object-cover"
+                                                            />
+                                                        </div>
+                                                        <div className="flex flex-1 flex-col p-4">
+                                                            <div className="mb-2">
+                                                                <h3 className="text-lg font-bold text-[#4b2e83]">{event.title}</h3>
+                                                                <div className="mt-1 flex items-center gap-4 text-sm text-gray-600">
+                                                                    <div className="flex items-center gap-1">
+                                                                        <Calendar className="h-4 w-4" />
+                                                                        <FormattedDate date={event.date} />
+                                                                    </div>
+                                                                    <div className="flex items-center gap-1">
+                                                                        <MapPin className="h-4 w-4" />
+                                                                        <span>{event.location}</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div className="mt-auto flex items-center justify-between">
+                                                                <Badge className="bg-green-100 text-green-800">Confirmed</Badge>
+                                                                <Button variant="outline" className="hover:cursor-pointer" size="sm">
+                                                                    View Details
+                                                                </Button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </Card>
+                                            ))}
+                                        </div>
+                                    </TabsContent>
+
+                                    <TabsContent value="past">
+                                        <div className="mt-4 rounded-md border border-dashed p-8 text-center">
+                                            <h3 className="text-lg font-medium text-gray-600">No past events to display</h3>
+                                            <p className="mt-1 text-sm text-gray-500">
+                                                Events you've attended will appear here for your reference.
+                                            </p>
+                                        </div>
+                                    </TabsContent>
+
+                                    <TabsContent value="saved">
+                                        <div className="mt-4 rounded-md border border-dashed p-8 text-center">
+                                            <h3 className="text-lg font-medium text-gray-600">No saved events</h3>
+                                            <p className="mt-1 text-sm text-gray-500">
+                                                Save events you're interested in to keep track of them.
+                                            </p>
+                                        </div>
+                                    </TabsContent>
+                                </Tabs>
+                            </div>
+
+                            {/* Recommended Events */}
+                            <div>
+                                <div className="mb-4 flex items-center justify-between">
+                                    <h2 className="text-xl font-bold text-[#4b2e83]">Recommended For You</h2>
+                                    <Link
+                                        href="/discover"
+                                        className="flex items-center text-sm font-medium text-[#4b2e83] hover:underline"
+                                    >
+                                        View All
+                                        <ChevronRight className="ml-1 h-4 w-4" />
+                                    </Link>
+                                </div>
+
+                                <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                                    {recommendedEvents.map((event) => (
+                                        <Card key={event.id} className="overflow-hidden">
+                                            <div className="relative h-[140px] w-full">
+                                                <Image
+                                                    src={event.thumbnail || "/placeholder.svg"}
+                                                    alt={event.title}
+                                                    fill
+                                                    className="object-cover"
+                                                />
+                                            </div>
+                                            <CardHeader className="p-4 pb-2">
+                                                <CardTitle className="line-clamp-1 text-base text-[#4b2e83]">{event.title}</CardTitle>
+                                                <CardDescription className="flex items-center gap-1 text-xs">
+                                                    <Calendar className="h-3 w-3" />
+                                                    <FormattedDate date={event.date} />
+                                                </CardDescription>
+                                            </CardHeader>
+                                            <CardContent className="p-4 pt-0">
+                                                <p className="line-clamp-2 text-xs text-gray-600">{event.description}</p>
+                                            </CardContent>
+                                            <CardFooter className="flex justify-between border-t p-4">
+                                                <div className="flex items-center gap-1 text-xs text-gray-500">
+                                                    <Users className="h-3 w-3" />
+                                                    <span>{event.attendees} attending</span>
+                                                </div>
+                                                <Button variant="ghost" size="sm" className="h-8 w-8 p-0 hover:cursor-pointer">
+                                                    <Star className="h-4 w-4" />
+                                                    <span className="sr-only">Save</span>
+                                                </Button>
+                                            </CardFooter>
+                                        </Card>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="space-y-8">
+                            {/* Activity Summary */}
+                            <Card>
+                                <CardHeader>
+                                    <CardTitle className="text-lg">Activity Summary</CardTitle>
+                                </CardHeader>
+                                <CardContent className="space-y-4">
+                                    <div>
+                                        <div className="mb-1 flex items-center justify-between">
+                                            <span className="text-sm font-medium">Events Attended</span>
+                                            <span className="text-sm text-gray-500">7/10</span>
+                                        </div>
+                                        <Progress value={70} className="h-2 bg-[#4b2e83]" indicatorColor={"bg-[#b7a57a]"} />
+                                    </div>
+                                    <div>
+                                        <div className="mb-1 flex items-center justify-between">
+                                            <span className="text-sm font-medium">RSVPs This Quarter</span>
+                                            <span className="text-sm text-gray-500">3/5</span>
+                                        </div>
+                                        <Progress value={60} className="h-2 bg-[#4b2e83]" indicatorColor={"bg-[#b7a57a]"} />
+                                    </div>
+                                    <div>
+                                        <div className="mb-1 flex items-center justify-between">
+                                            <span className="text-sm font-medium">Engagement Score</span>
+                                            <span className="text-sm text-gray-500">85%</span>
+                                        </div>
+                                        <Progress value={85} className="h-2 bg-[#4b2e83]" indicatorColor={"bg-[#b7a57a]"} />
                                     </div>
                                 </CardContent>
                             </Card>
-                        )}
 
-                        {/* My Events Tabs */}
-                        <div className="mb-8">
-                            <Tabs defaultValue="upcoming">
-                                <div className="flex items-center justify-between">
-                                    <h2 className="text-xl font-bold text-[#4b2e83]">My Events</h2>
-                                    <TabsList >
-                                        <TabsTrigger className="hover:cursor-pointer" value="upcoming">Upcoming</TabsTrigger>
-                                        <TabsTrigger className="hover:cursor-pointer" value="past">Past</TabsTrigger>
-                                        <TabsTrigger className="hover:cursor-pointer" value="saved">Saved</TabsTrigger>
-                                    </TabsList>
-                                </div>
+                            {/* My Organizations */}
+                            <Card>
+                                <CardHeader>
+                                    <CardTitle className="text-lg">My Organizations</CardTitle>
+                                </CardHeader>
+                                <CardContent className="space-y-4">
+                                    {testStudent.organizations.map((org: string, index: number) => (
+                                        <div key={index} className="flex items-center justify-between">
+                                            <div className="flex items-center gap-3">
+                                                <Avatar className="h-8 w-8">
+                                                    <AvatarFallback className="bg-[#4b2e83] text-xs text-white">
+                                                        {org
+                                                            .split(" ")
+                                                            .map((word) => word[0])
+                                                            .join("")}
+                                                    </AvatarFallback>
+                                                </Avatar>
+                                                <span className="text-sm font-medium">{org}</span>
+                                            </div>
+                                            <Button variant="ghost" size="sm" className="h-8 px-2 text-xs hover:cursor-pointer">
+                                                View
+                                            </Button>
+                                        </div>
+                                    ))}
+                                    <Button variant="outline" size="sm" className="mt-2 w-full hover:cursor-pointer">
+                                        <Plus className="mr-1 h-3 w-3" />
+                                        Join Organization
+                                    </Button>
+                                </CardContent>
+                            </Card>
 
-                                <TabsContent value="upcoming" className="mt-4">
-                                    <div className="space-y-4">
-                                        {myEvents.map((event) => (
-                                            <Card key={event.id} className="overflow-hidden">
-                                                <div className="flex flex-col sm:flex-row">
-                                                    <div className="relative h-[120px] w-full sm:h-auto sm:w-[180px]">
-                                                        <Image
-                                                            src={event.thumbnail || "/placeholder.svg"}
-                                                            alt={event.title}
-                                                            fill
-                                                            className="object-cover"
-                                                        />
-                                                    </div>
-                                                    <div className="flex flex-1 flex-col p-4">
-                                                        <div className="mb-2">
-                                                            <h3 className="text-lg font-bold text-[#4b2e83]">{event.title}</h3>
-                                                            <div className="mt-1 flex items-center gap-4 text-sm text-gray-600">
-                                                                <div className="flex items-center gap-1">
-                                                                    <Calendar className="h-4 w-4" />
-                                                                    <span>{formatDate(event.date)}</span>
-                                                                </div>
-                                                                <div className="flex items-center gap-1">
-                                                                    <MapPin className="h-4 w-4" />
-                                                                    <span>{event.location}</span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div className="mt-auto flex items-center justify-between">
-                                                            <Badge className="bg-green-100 text-green-800">Confirmed</Badge>
-                                                            <Button variant="outline" className="hover:cursor-pointer" size="sm">
-                                                                View Details
-                                                            </Button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </Card>
+                            {/* My Interests */}
+                            <Card>
+                                <CardHeader className="flex flex-row items-center justify-between">
+                                    <CardTitle className="text-lg">My Interests</CardTitle>
+                                    <Button
+                                        variant="ghost"
+                                        size="sm"
+                                        className="h-8 px-2 text-xs"
+                                        onClick={() => setIsInterestsDialogOpen(true)}
+                                    >
+                                        Manage
+                                    </Button>
+                                </CardHeader>
+                                <CardContent>
+                                    <div className="flex flex-wrap gap-2">
+                                        {interests.map((interest: string, index: number) => (
+                                            <Badge key={index} variant="outline" className="bg-[#4b2e83]/5">
+                                                {interest}
+                                            </Badge>
                                         ))}
                                     </div>
-                                </TabsContent>
+                                </CardContent>
+                            </Card>
 
-                                <TabsContent value="past">
-                                    <div className="mt-4 rounded-md border border-dashed p-8 text-center">
-                                        <h3 className="text-lg font-medium text-gray-600">No past events to display</h3>
-                                        <p className="mt-1 text-sm text-gray-500">
-                                            Events you've attended will appear here for your reference.
-                                        </p>
+                            {/* Upcoming Deadlines */}
+                            <Card>
+                                <CardHeader>
+                                    <CardTitle className="text-lg">Upcoming Deadlines</CardTitle>
+                                </CardHeader>
+                                <CardContent className="space-y-4">
+                                    <div>
+                                        <h4 className="font-medium text-[#4b2e83]">Event Registration Deadline</h4>
+                                        <p className="text-sm text-gray-600">Spring Football Game</p>
+                                        <p className="mt-1 text-xs text-gray-500">May 15, 2024 • 3 days left</p>
                                     </div>
-                                </TabsContent>
-
-                                <TabsContent value="saved">
-                                    <div className="mt-4 rounded-md border border-dashed p-8 text-center">
-                                        <h3 className="text-lg font-medium text-gray-600">No saved events</h3>
-                                        <p className="mt-1 text-sm text-gray-500">
-                                            Save events you're interested in to keep track of them.
-                                        </p>
+                                    <div>
+                                        <h4 className="font-medium text-[#4b2e83]">Volunteer Application</h4>
+                                        <p className="text-sm text-gray-600">Research Symposium</p>
+                                        <p className="mt-1 text-xs text-gray-500">May 18, 2024 • 6 days left</p>
                                     </div>
-                                </TabsContent>
-                            </Tabs>
+                                </CardContent>
+                            </Card>
                         </div>
-
-                        {/* Recommended Events */}
-                        <div>
-                            <div className="mb-4 flex items-center justify-between">
-                                <h2 className="text-xl font-bold text-[#4b2e83]">Recommended For You</h2>
-                                <Link
-                                    href="/discover"
-                                    className="flex items-center text-sm font-medium text-[#4b2e83] hover:underline"
-                                >
-                                    View All
-                                    <ChevronRight className="ml-1 h-4 w-4" />
-                                </Link>
-                            </div>
-
-                            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                                {recommendedEvents.map((event) => (
-                                    <Card key={event.id} className="overflow-hidden">
-                                        <div className="relative h-[140px] w-full">
-                                            <Image
-                                                src={event.thumbnail || "/placeholder.svg"}
-                                                alt={event.title}
-                                                fill
-                                                className="object-cover"
-                                            />
-                                        </div>
-                                        <CardHeader className="p-4 pb-2">
-                                            <CardTitle className="line-clamp-1 text-base text-[#4b2e83]">{event.title}</CardTitle>
-                                            <CardDescription className="flex items-center gap-1 text-xs">
-                                                <Calendar className="h-3 w-3" />
-                                                <span>{formatDate(event.date)}</span>
-                                            </CardDescription>
-                                        </CardHeader>
-                                        <CardContent className="p-4 pt-0">
-                                            <p className="line-clamp-2 text-xs text-gray-600">{event.description}</p>
-                                        </CardContent>
-                                        <CardFooter className="flex justify-between border-t p-4">
-                                            <div className="flex items-center gap-1 text-xs text-gray-500">
-                                                <Users className="h-3 w-3" />
-                                                <span>{event.attendees} attending</span>
-                                            </div>
-                                            <Button variant="ghost" size="sm" className="h-8 w-8 p-0 hover:cursor-pointer">
-                                                <Star className="h-4 w-4" />
-                                                <span className="sr-only">Save</span>
-                                            </Button>
-                                        </CardFooter>
-                                    </Card>
-                                ))}
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="space-y-8">
-                        {/* Activity Summary */}
-                        <Card>
-                            <CardHeader>
-                                <CardTitle className="text-lg">Activity Summary</CardTitle>
-                            </CardHeader>
-                            <CardContent className="space-y-4">
-                                <div>
-                                    <div className="mb-1 flex items-center justify-between">
-                                        <span className="text-sm font-medium">Events Attended</span>
-                                        <span className="text-sm text-gray-500">7/10</span>
-                                    </div>
-                                    <Progress value={70} className="h-2 bg-[#4b2e83]" indicatorColor={"bg-[#b7a57a]"} />
-                                </div>
-                                <div>
-                                    <div className="mb-1 flex items-center justify-between">
-                                        <span className="text-sm font-medium">RSVPs This Quarter</span>
-                                        <span className="text-sm text-gray-500">3/5</span>
-                                    </div>
-                                    <Progress value={60} className="h-2 bg-[#4b2e83]" indicatorColor={"bg-[#b7a57a]"} />
-                                </div>
-                                <div>
-                                    <div className="mb-1 flex items-center justify-between">
-                                        <span className="text-sm font-medium">Engagement Score</span>
-                                        <span className="text-sm text-gray-500">85%</span>
-                                    </div>
-                                    <Progress value={85} className="h-2 bg-[#4b2e83]" indicatorColor={"bg-[#b7a57a]"} />
-                                </div>
-                            </CardContent>
-                        </Card>
-
-                        {/* My Organizations */}
-                        <Card>
-                            <CardHeader>
-                                <CardTitle className="text-lg">My Organizations</CardTitle>
-                            </CardHeader>
-                            <CardContent className="space-y-4">
-                                {testStudent.organizations.map((org: string, index: number) => (
-                                    <div key={index} className="flex items-center justify-between">
-                                        <div className="flex items-center gap-3">
-                                            <Avatar className="h-8 w-8">
-                                                <AvatarFallback className="bg-[#4b2e83] text-xs text-white">
-                                                    {org
-                                                        .split(" ")
-                                                        .map((word) => word[0])
-                                                        .join("")}
-                                                </AvatarFallback>
-                                            </Avatar>
-                                            <span className="text-sm font-medium">{org}</span>
-                                        </div>
-                                        <Button variant="ghost" size="sm" className="h-8 px-2 text-xs hover:cursor-pointer">
-                                            View
-                                        </Button>
-                                    </div>
-                                ))}
-                                <Button variant="outline" size="sm" className="mt-2 w-full hover:cursor-pointer">
-                                    <Plus className="mr-1 h-3 w-3" />
-                                    Join Organization
-                                </Button>
-                            </CardContent>
-                        </Card>
-
-                        {/* My Interests */}
-                        <Card>
-                            <CardHeader>
-                                <CardTitle className="text-lg">My Interests</CardTitle>
-                            </CardHeader>
-                            <CardContent>
-                                <div className="flex flex-wrap gap-2">
-                                    {testStudent.interests.map((interest: string, index: number) => (
-                                        <Badge key={index} variant="outline" className="bg-[#4b2e83]/5">
-                                            {interest}
-                                        </Badge>
-                                    ))}
-                                    <Button variant="ghost" size="sm" className="h-6 rounded-full px-2 text-xs hover:cursor-pointer">
-                                        <Plus className="mr-1 h-3 w-3" />
-                                        Add
-                                    </Button>
-                                </div>
-                            </CardContent>
-                        </Card>
-
-                        {/* Upcoming Deadlines */}
-                        <Card>
-                            <CardHeader>
-                                <CardTitle className="text-lg">Upcoming Deadlines</CardTitle>
-                            </CardHeader>
-                            <CardContent className="space-y-4">
-                                <div>
-                                    <h4 className="font-medium text-[#4b2e83]">Event Registration Deadline</h4>
-                                    <p className="text-sm text-gray-600">Spring Football Game</p>
-                                    <p className="mt-1 text-xs text-gray-500">May 15, 2024 • 3 days left</p>
-                                </div>
-                                <div>
-                                    <h4 className="font-medium text-[#4b2e83]">Volunteer Application</h4>
-                                    <p className="text-sm text-gray-600">Research Symposium</p>
-                                    <p className="mt-1 text-xs text-gray-500">May 18, 2024 • 6 days left</p>
-                                </div>
-                            </CardContent>
-                        </Card>
                     </div>
                 </div>
-            </div>
-        </main>
+            </main>
+            <ManageInterestsDialog
+                open={isInterestsDialogOpen}
+                onOpenChangeAction={setIsInterestsDialogOpen}
+                currentInterests={interests}
+                onInterestsChangeAction={setInterests}
+            />
+        </>
     );
 }

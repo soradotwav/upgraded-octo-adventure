@@ -3,6 +3,7 @@ import './globals.css'
 import {Header} from "@/components/header";
 import {Toaster} from "sonner";
 import Link from "next/link";
+import {useUser} from "@/hooks/useUser";
 
 export const metadata: Metadata = {
     title: "UW Events Portal",
@@ -14,11 +15,10 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
-
   return (
     <html lang="en">
       <body>
-      <Header />
+      <Header/>
       <div className="flex min-h-screen flex-col bg-gray-50">
           {children}
       </div>

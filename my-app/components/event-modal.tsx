@@ -9,8 +9,9 @@ import {
 } from "@/components/ui/dialog"
 import {Calendar, Check, MapPin, Users} from "lucide-react";
 import {Button} from "@/components/ui/button";
-import {confirmRSVP, formatDate} from "@/components/util-functions";
+import {confirmRSVP} from "@/components/util-functions";
 import {Badge} from "@/components/ui/badge";
+import FormattedDate from "@/components/formatted-date";
 
 interface EventModalProps {
     event: EventObject,
@@ -44,9 +45,7 @@ export default function EventDetailModal({event, open, isRsvped, setIsRsvped, on
                     <div className="flex items-center gap-4 text-base text-gray-600">
                         <div className="flex items-center gap-1">
                             <Calendar className="h-4 w-4" />
-                            <span>
-                                {formatDate(event.date)}
-                            </span>
+                            <FormattedDate date={event.date} />
                         </div>
                         <div className="flex items-center gap-1">
                             <MapPin className="h-4 w-4" />
