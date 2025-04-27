@@ -16,6 +16,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import {toast} from "sonner";
+import {useUser} from "@/hooks/useUser";
 
 const allInterestTags = [
   "Academic",
@@ -63,6 +64,7 @@ export default function ManageInterestsDialog({
 }: ManageInterestsDialogProps) {
   const [interests, setInterests] = useState<string[]>(currentInterests)
   const [searchQuery, setSearchQuery] = useState("")
+  const {user, setUser} = useUser()
 
   // Filter tags based on search query
   const filteredTags = allInterestTags.filter(
@@ -83,9 +85,15 @@ export default function ManageInterestsDialog({
   }
 
   const handleSave = () => {
-    onInterestsChangeAction(interests)
-    onOpenChangeAction(false)
-  }
+    if (user) {
+      setUser(prev => prev ? { ...prev, interests: interests } : null);
+      toast.success(<p>Interests updated!</p>, {
+        description: "Your personalized interests have been saved.",
+      });
+    }
+    onInterestsChangeAction(interests);
+    onOpenChangeAction(false);
+  };
 
   return (
     <Dialog open={open} onOpenChange={onOpenChangeAction}>

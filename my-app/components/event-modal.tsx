@@ -1,29 +1,43 @@
-import {EventObject} from "@/lib/models/events";
-import Image from "next/image"
+import { useState } from "react";
+import { EventObject } from "@/lib/models/events";
+import Image from "next/image";
 import {
     Dialog,
     DialogContent,
     DialogFooter,
     DialogHeader,
     DialogTitle,
-} from "@/components/ui/dialog"
-import {Calendar, Check, MapPin, Users} from "lucide-react";
-import {Button} from "@/components/ui/button";
-import {confirmRSVP} from "@/components/util-functions";
-import {Badge} from "@/components/ui/badge";
+} from "@/components/ui/dialog";
+import { Calendar, Check, MapPin, Users, X } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { confirmRSVP } from "@/components/util-functions";
+import { Badge } from "@/components/ui/badge";
 import FormattedDate from "@/components/formatted-date";
 
 interface EventModalProps {
-    event: EventObject,
-    open: boolean,
-    isRsvped: boolean,
-    setIsRsvped: (isRsvped: boolean) => void,
-    onOpenChange: (open: boolean) => void,
+    event: EventObject;
+    open: boolean;
+    isRsvped: boolean;
+    setIsRsvped: (isRsvped: boolean) => void;
+    onOpenChange: (open: boolean) => void;
 }
 
+export default function EventDetailModal({
+                                             event,
+                                             open,
+                                             isRsvped,
+                                             setIsRsvped,
+                                             onOpenChange,
+                                         }: EventModalProps) {
+    const [hovering, setHovering] = useState(false);
 
-export default function EventDetailModal({event, open, isRsvped, setIsRsvped, onOpenChange} : EventModalProps) {
-    const buttonColor = `hover:cursor-pointer ${!isRsvped ? "bg-[#b7a57a] hover:bg-[#b7a57a]/90" : "bg-[#8AD1A4] hover:bg-[#8AD1A4]/90"}`;
+    const buttonBase = "hover:cursor-pointer transition-colors";
+
+    const buttonColor = !isRsvped
+        ? "bg-[#b7a57a] hover:bg-[#b7a57a]/90"
+        : hovering
+            ? "bg-red-300 hover:bg-red-400"
+            : "bg-[#8AD1A4] hover:bg-[#8AD1A4]/90";
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
@@ -54,17 +68,19 @@ export default function EventDetailModal({event, open, isRsvped, setIsRsvped, on
                     </div>
 
                     <div className="flex flex-wrap gap-1">
-                        {event.tags ? event.tags.map((tag) => (
+                        {event.tags?.map((tag) => (
                             <Badge key={tag} variant="secondary" className="bg-[#b7a57a]/10 text-[#4b2e83]">
                                 {tag}
                             </Badge>
-                        )) : null}
+                        ))}
                     </div>
 
                     <div className="rounded-md bg-gray-50 p-3">
                         <div className="flex items-center gap-2 text-sm">
                             <Users className="h-5 w-5 text-[#4b2e83]" />
-                            <span>{event.attendees + (isRsvped ? 1 : 0)} {event.maxAttendees ? ` / ${event.maxAttendees}` : null} attending</span>
+                            <span>
+                {event.attendees + (isRsvped ? 1 : 0)} {event.maxAttendees ? ` / ${event.maxAttendees}` : null} attending
+              </span>
                         </div>
                     </div>
 
@@ -99,14 +115,32 @@ export default function EventDetailModal({event, open, isRsvped, setIsRsvped, on
                             Share Event
                         </Button>
                     </div>
+
+                    {/* RSVP Button */}
                     <Button
-                        className={buttonColor}
+                        className={`${buttonBase} ${buttonColor}`}
                         onClick={() => {
                             setIsRsvped(!isRsvped);
                             confirmRSVP(event.title, isRsvped);
-                        }}>
-                        {isRsvped ?  <Check /> : null}
-                        {isRsvped ? "Going" : "RSVP"}
+                        }}
+                        onMouseEnter={() => setHovering(true)}
+                        onMouseLeave={() => setHovering(false)}
+                    >
+                        {isRsvped ? (
+                            hovering ? (
+                                <>
+                                    <X className="mr-1 h-4 w-4" />
+                                    Cancel
+                                </>
+                            ) : (
+                                <>
+                                    <Check className="mr-1 h-4 w-4" />
+                                    Going
+                                </>
+                            )
+                        ) : (
+                            "RSVP"
+                        )}
                     </Button>
                 </DialogFooter>
             </DialogContent>

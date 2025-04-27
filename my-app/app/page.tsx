@@ -1,5 +1,5 @@
 "use client"
-import {testEvents, testStudent} from "@/lib/data";
+import {testEvents, testStudent, UserType} from "@/lib/data";
 import {Button} from "@/components/ui/button";
 import Link from "next/link";
 import Image from "next/image";
@@ -10,7 +10,7 @@ import {Calendar, ChevronRight, Clock, MapPin, Plus, Star, TrendingUp, Users} fr
 import {Progress} from "@/components/ui/progress";
 import {Badge} from "@/components/ui/badge";
 import FormattedDate from "@/components/formatted-date";
-import {useState} from "react";
+import {Dispatch, SetStateAction, useState} from "react";
 import ManageInterestsDialog from "@/components/manage-interests-dialog";
 import {useUser} from "@/hooks/useUser";
 
@@ -19,7 +19,7 @@ export default function HomePage() {
 
     return (
         <>
-            {user ? <UserHomePage /> : <DefaultHomePage />}
+            {user ? <UserHomePage user={user} setUser={setUser} /> : <DefaultHomePage />}
         </>
     );
 }
@@ -258,7 +258,7 @@ function DefaultHomePage() {
     );
 }
 
-function UserHomePage() {
+function UserHomePage({user, setUser}: {user: UserType, setUser: Dispatch<SetStateAction<UserType | null>>}) {
     const myEvents = [
         testEvents[0],
         testEvents[2],
@@ -279,8 +279,7 @@ function UserHomePage() {
         greeting = "Good evening"
     }
 
-    const [isInterestsDialogOpen, setIsInterestsDialogOpen] = useState(false)
-    const [interests, setInterests] = useState<string[]>(testStudent.interests)
+    const [isInterestsDialogOpen, setIsInterestsDialogOpen] = useState(false);
 
     return (
         <>
@@ -548,13 +547,19 @@ function UserHomePage() {
                                     </Button>
                                 </CardHeader>
                                 <CardContent>
-                                    <div className="flex flex-wrap gap-2">
-                                        {interests.map((interest: string, index: number) => (
-                                            <Badge key={index} variant="outline" className="bg-[#4b2e83]/5">
-                                                {interest}
-                                            </Badge>
-                                        ))}
-                                    </div>
+                                    {user?.interests && user.interests.length > 0 ? (
+                                        <div className="flex flex-wrap gap-2">
+                                            {user.interests.map((interest, index) => (
+                                                <Badge key={index} variant="outline" className="bg-[#4b2e83]/5">
+                                                    {interest}
+                                                </Badge>
+                                            ))}
+                                        </div>
+                                    ) : (
+                                        <p className="text-sm text-gray-500">
+                                            No interests selected. Click Manage to add some!
+                                        </p>
+                                    )}
                                 </CardContent>
                             </Card>
 
@@ -583,8 +588,12 @@ function UserHomePage() {
             <ManageInterestsDialog
                 open={isInterestsDialogOpen}
                 onOpenChangeAction={setIsInterestsDialogOpen}
-                currentInterests={interests}
-                onInterestsChangeAction={setInterests}
+                currentInterests={user?.interests ?? []}
+                onInterestsChangeAction={(newInterests) => {
+                    if (user) {
+                        setUser((prev: UserType | null) => prev ? { ...prev, interests: newInterests } : null);
+                    }
+                }}
             />
         </>
     );

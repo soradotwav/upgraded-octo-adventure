@@ -34,3 +34,27 @@ export function removeUserFromLocalStorage() {
     localStorage.removeItem("user");
   }
 }
+
+export function updateUserName(setUser: React.Dispatch<React.SetStateAction<UserType | null>>, newName: string) {
+  setUser(prev => prev ? { ...prev, name: newName } : null);
+}
+
+export function updateUserMajor(setUser: React.Dispatch<React.SetStateAction<UserType | null>>, newMajor: string) {
+  setUser(prev => prev ? { ...prev, major: newMajor } : null);
+}
+
+export function updateUserYear(setUser: React.Dispatch<React.SetStateAction<UserType | null>>, newYear: string) {
+  setUser(prev => prev ? { ...prev, year: newYear } : null);
+}
+
+export function updateUserAvatar(setUser: React.Dispatch<React.SetStateAction<UserType | null>>, newAvatar: string) {
+  setUser(prev => prev ? { ...prev, avatar: newAvatar } : null);
+}
+
+export function updateUserInterests(setUser: React.Dispatch<React.SetStateAction<UserType | null>>, newInterests: string[]) {
+  setUser(prev => prev ? { ...prev, interests: newInterests } : null);
+}
+
+export function updateUserOrganizations(setUser: React.Dispatch<React.SetStateAction<UserType | null>>, newOrganizations: string[]) {
+  setUser(prev => prev ? { ...prev, organizations: newOrganizations } : null);
+}

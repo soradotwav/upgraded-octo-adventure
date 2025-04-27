@@ -1,21 +1,33 @@
 'use client'
 import Image from "next/image"
-import {Calendar, Check, Clipboard, MapPin, Users} from "lucide-react"
+import { Calendar, Check, Clipboard, MapPin, Users, X } from "lucide-react"
 
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
-import {EventObject} from "@/lib/models/events";
-import EventDetailModal from "@/components/event-modal";
-import {useState} from "react";
-import {confirmRSVP} from "@/components/util-functions";
-import FormattedDate from "@/components/formatted-date";
+import { EventObject } from "@/lib/models/events"
+import EventDetailModal from "@/components/event-modal"
+import { useState } from "react"
+import { confirmRSVP } from "@/components/util-functions"
+import FormattedDate from "@/components/formatted-date"
 
 export function EventCard({ event }: { event: EventObject }) {
-  const [showDetails, setShowDetails] = useState(false);
+  const [showDetails, setShowDetails] = useState(false)
   const [isRsvped, setIsRsvped] = useState(false)
+  const [hovering, setHovering] = useState(false)
 
-  const buttonColor = `hover:cursor-pointer ${!isRsvped ? "bg-[#b7a57a] hover:bg-[#b7a57a]/90" : "bg-[#8AD1A4] hover:bg-[#8AD1A4]/90"}`;
+  const buttonBase = "hover:cursor-pointer transition-colors";
+
+  const buttonColor = !isRsvped
+      ? "bg-[#b7a57a] hover:bg-[#b7a57a]/90"
+      : hovering
+          ? "bg-red-300 hover:bg-red-400"
+          : "bg-[#8AD1A4] hover:bg-[#8AD1A4]/90";
+
+  const handleClick = () => {
+    setIsRsvped(!isRsvped);
+    confirmRSVP(event.title, isRsvped);
+  };
 
   return (
       <>
@@ -33,7 +45,12 @@ export function EventCard({ event }: { event: EventObject }) {
               <CardHeader className="py-4">
                 <div className="flex items-start justify-between">
                   <div>
-                    <h3 className="text-xl font-bold text-[#4b2e83] hover:underline hover:cursor-pointer" onClick={() => setShowDetails(true)}>{event.title}</h3>
+                    <h3
+                        className="text-xl font-bold text-[#4b2e83] hover:underline hover:cursor-pointer"
+                        onClick={() => setShowDetails(true)}
+                    >
+                      {event.title}
+                    </h3>
                     <div className="mt-1 flex items-center gap-4 text-sm text-gray-600">
                       <div className="flex items-center gap-1">
                         <Calendar className="h-4 w-4" />
@@ -46,11 +63,11 @@ export function EventCard({ event }: { event: EventObject }) {
                     </div>
                   </div>
                   <div className="flex flex-wrap gap-1">
-                    {event.tags ? event.tags.map((tag) => (
+                    {event.tags?.map((tag) => (
                         <Badge key={tag} variant="secondary" className="bg-[#b7a57a]/10 text-[#4b2e83]">
                           {tag}
                         </Badge>
-                    )) : null}
+                    ))}
                   </div>
                 </div>
               </CardHeader>
@@ -65,25 +82,49 @@ export function EventCard({ event }: { event: EventObject }) {
                   </div>
                 </div>
                 <div className="flex gap-5 text-sm text-gray-600">
-                  <div className="flex items-center gap-1 ">
+                  <div className="flex items-center gap-1">
                     <Users className="h-4 w-4" />
-                    <span>{event.attendees + (isRsvped ? 1 : 0)} {event.maxAttendees ? `/ ${event.maxAttendees}` : null}</span>
+                    <span>
+                    {event.attendees + (isRsvped ? 1 : 0)} {event.maxAttendees ? `/ ${event.maxAttendees}` : null}
+                  </span>
                   </div>
+
+                  {/* RSVP Button */}
                   <Button
-                      className={buttonColor}
-                      onClick={() => {
-                        setIsRsvped(!isRsvped);
-                        confirmRSVP(event.title, isRsvped)
-                      }}>
-                    {isRsvped ?  <Check /> : null}
-                    {isRsvped ? "Going" : "RSVP"}
+                      className={`${buttonBase} ${buttonColor}`}
+                      onClick={handleClick}
+                      onMouseEnter={() => setHovering(true)}
+                      onMouseLeave={() => setHovering(false)}
+                  >
+                    {isRsvped ? (
+                        hovering ? (
+                            <>
+                              <X className="mr-1 h-4 w-4" />
+                              Cancel
+                            </>
+                        ) : (
+                            <>
+                              <Check className="mr-1 h-4 w-4" />
+                              Going
+                            </>
+                        )
+                    ) : (
+                        "RSVP"
+                    )}
                   </Button>
+
                 </div>
               </CardFooter>
             </div>
           </div>
         </Card>
-        <EventDetailModal event={event} open={showDetails} isRsvped={isRsvped} setIsRsvped={setIsRsvped} onOpenChange={setShowDetails} />
+        <EventDetailModal
+            event={event}
+            open={showDetails}
+            isRsvped={isRsvped}
+            setIsRsvped={setIsRsvped}
+            onOpenChange={setShowDetails}
+        />
       </>
   )
 }
