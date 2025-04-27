@@ -23,3 +23,14 @@ export const confirmRSVP = (eventTitle: string, isRsvped: boolean) => {
         )
     }
 }
+
+export const formatDate = (eventDate: Date) => {
+    return new Intl.DateTimeFormat('en-US', {
+            year: 'numeric',
+            month: 'long', day: 'numeric',
+            hour: 'numeric',
+            minute: 'numeric',
+            hour12: true,
+            timeZone: 'America/Los_Angeles'
+        }).format(new Date(eventDate));
+}

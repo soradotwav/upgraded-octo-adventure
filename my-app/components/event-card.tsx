@@ -9,7 +9,7 @@ import {EventObject} from "@/lib/models/events";
 import EventDetailModal from "@/components/event-modal";
 import {useState} from "react";
 import {toast} from "sonner";
-import {confirmRSVP} from "@/components/util-functions";
+import {confirmRSVP, formatDate} from "@/components/util-functions";
 
 export function EventCard({ event }: { event: EventObject }) {
   const [showDetails, setShowDetails] = useState(false);
@@ -38,14 +38,7 @@ export function EventCard({ event }: { event: EventObject }) {
                       <div className="flex items-center gap-1">
                         <Calendar className="h-4 w-4" />
                         <span>
-                          {new Intl.DateTimeFormat('en-US', {
-                            year: 'numeric',
-                            month: 'long', day: 'numeric',
-                            hour: 'numeric',
-                            minute: 'numeric',
-                            hour12: true,
-                            timeZone: 'America/Los_Angeles'
-                          }).format(new Date(event.date))}
+                          {formatDate(event.date)}
                         </span>
                       </div>
                       <div className="flex items-center gap-1">

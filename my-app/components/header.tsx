@@ -37,16 +37,16 @@ export function Header() {
             {/* Navigation - Center aligned */}
             <nav className="hidden md:block">
               <div className="flex items-center space-x-1">
-                <Button variant="ghost" size="sm" className="text-gray-700 hover:text-[#4b2e83]" onClick={() => router.push('/')}>
-                  <Home className="mr-1 h-4 w-4" />
+                <Button variant="ghost" size="default" className="text-gray-700 hover:text-[#4b2e83] hover:cursor-pointer" onClick={() => router.push('/')}>
+                  <Home className="mr-1 h-6 w-6" />
                   Home
                 </Button>
-                <Button variant="ghost" size="sm" className="text-gray-700 hover:text-[#4b2e83]">
-                  <Calendar className="mr-1 h-4 w-4" />
+                <Button variant="ghost" size="default" className="text-gray-700 hover:text-[#4b2e83] hover:cursor-pointer">
+                  <Calendar className="mr-1 h-6 w-6" />
                   My Calendar
                 </Button>
-                <Button variant="ghost" size="sm" className="text-gray-700 hover:text-[#4b2e83]" onClick={() => router.push('/discover')}>
-                  <Compass className="mr-1 h-4 w-4" />
+                <Button variant="ghost" size="default" className="text-gray-700 hover:text-[#4b2e83] hover:cursor-pointer" onClick={() => router.push('/discover')}>
+                  <Compass className="mr-1 h-6 w-6" />
                   Discover
                 </Button>
               </div>
@@ -68,7 +68,7 @@ export function Header() {
             {/* Notifications */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="icon" className="relative text-gray-600">
+                <Button variant="ghost" size="icon" className="relative text-gray-600 hover:cursor-pointer">
                   <Bell className="h-5 w-5" />
                   <Badge className="absolute -right-1 -top-1 h-4 w-4 rounded-full bg-[#b7a57a] p-1 text-[10px]">3</Badge>
                   <span className="sr-only">Notifications</span>
@@ -100,7 +100,7 @@ export function Header() {
                 <Button
                     variant="ghost"
                     size="icon"
-                    className="rounded-full border border-gray-200 bg-gray-50 text-gray-600"
+                    className="rounded-full border border-gray-200 bg-gray-50 text-gray-600 hover:cursor-pointer"
                 >
                   <User className="h-5 w-5" />
                   <span className="sr-only">Profile</span>

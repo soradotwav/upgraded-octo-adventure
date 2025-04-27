@@ -9,7 +9,8 @@ import {
 } from "@/components/ui/dialog"
 import {Calendar, Check, MapPin, Users} from "lucide-react";
 import {Button} from "@/components/ui/button";
-import {confirmRSVP} from "@/components/util-functions";
+import {confirmRSVP, formatDate} from "@/components/util-functions";
+import {Badge} from "@/components/ui/badge";
 
 interface EventModalProps {
     event: EventObject,
@@ -44,20 +45,21 @@ export default function EventDetailModal({event, open, isRsvped, setIsRsvped, on
                         <div className="flex items-center gap-1">
                             <Calendar className="h-4 w-4" />
                             <span>
-                                {new Intl.DateTimeFormat('en-US', {
-                                    year: 'numeric',
-                                    month: 'long', day: 'numeric',
-                                    hour: 'numeric',
-                                    minute: 'numeric',
-                                    hour12: true,
-                                    timeZone: 'America/Los_Angeles'
-                                }).format(new Date(event.date))}
+                                {formatDate(event.date)}
                             </span>
                         </div>
                         <div className="flex items-center gap-1">
                             <MapPin className="h-4 w-4" />
                             <span>{event.location ?? "Virtual"}</span>
                         </div>
+                    </div>
+
+                    <div className="flex flex-wrap gap-1">
+                        {event.tags ? event.tags.map((tag) => (
+                            <Badge key={tag} variant="secondary" className="bg-[#b7a57a]/10 text-[#4b2e83]">
+                                {tag}
+                            </Badge>
+                        )) : null}
                     </div>
 
                     <div className="rounded-md bg-gray-50 p-3">
