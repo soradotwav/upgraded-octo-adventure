@@ -15,6 +15,7 @@ export interface EventObject {
     price?: number;
     isPublic: boolean;
     tags?: string[];
+    type: string;
 }
 
 export const Tags: string[] = [

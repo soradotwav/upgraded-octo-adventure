@@ -64,7 +64,11 @@ export function EventCard({ event }: { event: EventObject }) {
                   </div>
                   <div className="flex flex-wrap gap-1">
                     {event.tags?.map((tag) => (
-                        <Badge key={tag} variant="secondary" className="bg-[#b7a57a]/10 text-[#4b2e83]">
+                        <Badge
+                            key={tag}
+                            variant="outline"
+                            className="bg-[#4b2e83]/10 text-[#4b2e83] hover:bg-[#4b2e83]/20"
+                        >
                           {tag}
                         </Badge>
                     ))}

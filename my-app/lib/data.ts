@@ -24,7 +24,8 @@ export const testEvents: EventObject[] = [
     contact: "events@techcorp.com",
     price: 299.99,
     isPublic: true,
-    tags: ["Career", "Workshop", "Academic"]
+    tags: ["Career", "Workshop", "Academic", "Technology", "Networking", "STEM", "Social", "Engineering"],
+    type: "In-Person"
   },
   {
     id: "evt-002",
@@ -39,7 +40,8 @@ export const testEvents: EventObject[] = [
     maxAttendees: 30,
     contact: "coordinator@greenthumb.org",
     isPublic: true,
-    tags: ["Social"]
+    tags: ["Social", "Community Service", "Environmental", "Outdoors", "Food", "Health", "Wellness"],
+    type: "In-Person"
   },
   {
     id: "evt-003",
@@ -53,7 +55,8 @@ export const testEvents: EventObject[] = [
     attendees: 7,
     maxAttendees: 10,
     isPublic: false,
-    tags: ["Career"]
+    tags: ["Career", "Leadership", "Finance", "Workshop", "Networking"],
+    type: "In-Person"
   },
   {
     id: "evt-004",
@@ -69,7 +72,8 @@ export const testEvents: EventObject[] = [
     contact: "tickets@soundwaves.com",
     price: 45.50,
     isPublic: true,
-    tags: ["Arts", "Social"]
+    tags: ["Arts", "Social", "Entertainment", "Music", "Food", "Cultural"],
+    type: "In-Person"
   },
   {
     id: "evt-005",
@@ -82,7 +86,8 @@ export const testEvents: EventObject[] = [
     attendees: 23,
     contact: "bookclub@digitalbookworms.net",
     isPublic: true,
-    tags: ["Academic", "Social"]
+    tags: ["Academic", "Social", "Arts", "Humanities", "Cultural"],
+    type: "Virtual"
   },
   {
     id: "evt-006",
@@ -97,7 +102,8 @@ export const testEvents: EventObject[] = [
     maxAttendees: 150,
     contact: "launch@hometech.com",
     isPublic: false,
-    tags: ["Career", "Workshop"]
+    tags: ["Career", "Technology", "Networking", "Engineering", "Workshop"],
+    type: "In-Person"
   },
   {
     id: "evt-007",
@@ -113,7 +119,8 @@ export const testEvents: EventObject[] = [
     contact: "info@ventureconnect.com",
     price: 15.00,
     isPublic: true,
-    tags: ["Career", "Social", "Workshop"]
+    tags: ["Career", "Networking", "Technology", "Finance", "Social", "Entertainment", "Workshop"],
+    type: "In-Person"
   },
   {
     id: "evt-008",
@@ -129,7 +136,8 @@ export const testEvents: EventObject[] = [
     contact: "contact@skillforge.com",
     price: 99.00,
     isPublic: true,
-    tags: ["Academic", "Workshop"]
+    tags: ["Academic", "Workshop", "Technology", "Career", "STEM", "Engineering"],
+    type: "In-Person"
   },
   {
     id: "evt-009",
@@ -145,7 +153,8 @@ export const testEvents: EventObject[] = [
     contact: "info@innerpeace.org",
     price: 20.00,
     isPublic: true,
-    tags: ["Social", "Workshop"]
+    tags: ["Wellness", "Workshop", "Health", "Social"],
+    type: "In-Person"
   },
   {
     id: "evt-010",
@@ -161,7 +170,8 @@ export const testEvents: EventObject[] = [
     contact: "exhibitions@modernarts.org",
     price: 12.00,
     isPublic: true,
-    tags: ["Arts"]
+    tags: ["Arts", "Cultural", "Social", "Entertainment", "Technology"],
+    type: "In-Person"
   },
   {
     id: "evt-011",
@@ -177,7 +187,8 @@ export const testEvents: EventObject[] = [
     contact: "rsvp@futurescholars.org",
     price: 250.00,
     isPublic: true,
-    tags: ["Social", "Career"]
+    tags: ["Social", "Community Service", "Networking", "Finance", "Entertainment", "Food"],
+    type: "In-Person"
   },
   {
     id: "evt-012",
@@ -193,7 +204,8 @@ export const testEvents: EventObject[] = [
     contact: "info@datanexus.io",
     price: 120.00,
     isPublic: true,
-    tags: ["Academic", "Workshop"]
+    tags: ["Academic", "Workshop", "Technology", "Career", "STEM", "Science", "Research"],
+    type: "In-Person"
   },
   {
     id: "evt-013",
@@ -209,7 +221,8 @@ export const testEvents: EventObject[] = [
     contact: "screenings@cosmossociety.org",
     price: 18.00,
     isPublic: true,
-    tags: ["Arts", "Social"]
+    tags: ["Arts", "Entertainment", "Social", "Science", "Technology", "Cultural"],
+    type: "In-Person"
   },
   {
     id: "evt-014",
@@ -224,7 +237,8 @@ export const testEvents: EventObject[] = [
     maxAttendees: 250,
     contact: "hackathons@tech4good.org",
     isPublic: true,
-    tags: ["Career", "Workshop"]
+    tags: ["Technology", "Workshop", "Career", "Community Service", "Social", "Networking", "STEM", "Engineering", "Science"],
+    type: "In-Person"
   },
   {
     id: "evt-015",
@@ -237,7 +251,8 @@ export const testEvents: EventObject[] = [
     thumbnail: "https://random-image-pepebigotes.vercel.app/api/random-image",
     attendees: 350,
     isPublic: true,
-    tags: ["Social"]
+    tags: ["Social", "Food", "Community Service", "Cultural", "Environmental", "Arts", "Music"],
+    type: "In-Person"
   },
   {
     id: "evt-016",
@@ -253,7 +268,8 @@ export const testEvents: EventObject[] = [
     contact: "walks@citylens.org",
     price: 10.00,
     isPublic: true,
-    tags: ["Arts", "Social"]
+    tags: ["Arts", "Social", "Workshop", "Outdoors", "Cultural", "Technology"],
+    type: "In-Person"
   },
   {
     id: "evt-017",
@@ -265,7 +281,8 @@ export const testEvents: EventObject[] = [
     attendees: 600,
     contact: "info@careerpathways.com",
     isPublic: true,
-    tags: ["Career", "Academic"]
+    tags: ["Career", "Networking", "Academic", "Workshop", "Technology"],
+    type: "Virtual"
   },
   {
     id: "evt-018",
@@ -281,7 +298,8 @@ export const testEvents: EventObject[] = [
     contact: "classes@tastemakers.com",
     price: 60.00,
     isPublic: true,
-    tags: ["Social", "Workshop"]
+    tags: ["Food", "Workshop", "Social", "Cultural", "Entertainment", "Health"],
+    type: "In-Person"
   },
   {
     id: "evt-019",
@@ -296,7 +314,8 @@ export const testEvents: EventObject[] = [
     maxAttendees: 150,
     contact: "lectures@ecoworld.edu",
     isPublic: true,
-    tags: ["Academic", "Career"]
+    tags: ["Academic", "Environmental", "Science", "Technology", "Politics", "Career", "Research"],
+    type: "In-Person"
   },
   {
     id: "evt-020",
@@ -312,7 +331,252 @@ export const testEvents: EventObject[] = [
     contact: "race@cyclecity.org",
     price: 50.00,
     isPublic: true,
-    tags: ["Social"]
+    tags: ["Sports", "Health", "Social", "Outdoors", "Community Service", "Entertainment"],
+    type: "In-Person"
+  },
+  {
+    id: "evt-021",
+    title: "LGBTQ+ Pride Community Mixer",
+    body: "Connect with fellow LGBTQ+ individuals and allies in a relaxed social setting.",
+    description: "An evening of conversation, music, and community building. Light refreshments provided.",
+    organizer: "Rainbow Alliance Network",
+    date: new Date("2025-06-15T19:00:00"),
+    location: "The Community Hub",
+    thumbnail: "https://random-image-pepebigotes.vercel.app/api/random-image",
+    attendees: 85,
+    maxAttendees: 120,
+    contact: "events@rainbowalliance.org",
+    price: 5.00,
+    isPublic: true,
+    tags: ["LGBTQ+", "Social", "Networking", "Community Service", "Cultural"],
+    type: "In-Person"
+  },
+  {
+    id: "evt-022",
+    title: "Mayoral Debate Watch Party",
+    body: "Gather with fellow citizens to watch the live televised mayoral debate.",
+    description: "Engage in respectful discussion about local issues and candidate platforms. Non-partisan event.",
+    organizer: "Civic Engagement Group",
+    date: new Date("2025-10-15T18:30:00"),
+    location: "Downtown Public Library - Meeting Room B",
+    thumbnail: "https://random-image-pepebigotes.vercel.app/api/random-image",
+    attendees: 40,
+    maxAttendees: 60,
+    contact: "civic@email.com",
+    isPublic: true,
+    tags: ["Politics", "Social", "Community Service", "Networking"],
+    type: "In-Person"
+  },
+  {
+    id: "evt-023",
+    title: "Retro Gaming Night",
+    body: "Dust off your joysticks! Play classic console and arcade games.",
+    description: "A fun, casual night featuring NES, SNES, Sega Genesis, N64, and classic arcade cabinets. Pizza included!",
+    organizer: "Pixel Pals Club",
+    date: new Date("2025-07-25T18:00:00"),
+    location: "The Game Den",
+    thumbnail: "https://random-image-pepebigotes.vercel.app/api/random-image",
+    attendees: 30,
+    maxAttendees: 50,
+    contact: "info@pixelpals.gg",
+    price: 10.00,
+    isPublic: true,
+    tags: ["Gaming", "Social", "Entertainment", "Technology", "Food"],
+    type: "In-Person"
+  },
+  {
+    id: "evt-024",
+    title: "Leadership Development Seminar: Inspire & Influence",
+    body: "Enhance your leadership capabilities in this interactive seminar.",
+    description: "Focuses on communication strategies, team motivation, and ethical decision-making for aspiring and current leaders.",
+    organizer: "Elevate Leadership Institute",
+    date: new Date("2025-09-12T09:00:00"),
+    location: "Business Center Conference Room",
+    thumbnail: "https://random-image-pepebigotes.vercel.app/api/random-image",
+    attendees: 45,
+    maxAttendees: 60,
+    contact: "seminars@elevatelead.com",
+    price: 150.00,
+    isPublic: true,
+    tags: ["Leadership", "Workshop", "Career", "Networking", "Academic"],
+    type: "In-Person"
+  },
+  {
+    id: "evt-025",
+    title: "Global Perspectives: International Film Showcase",
+    body: "Experience award-winning short films and documentaries from around the world.",
+    description: "A curated selection highlighting diverse cultures, stories, and cinematic styles, followed by a Q&A with a guest filmmaker.",
+    organizer: "World Cinema Foundation",
+    date: new Date("2025-11-08T19:30:00"),
+    location: "Art House Cinema",
+    thumbnail: "https://random-image-pepebigotes.vercel.app/api/random-image",
+    attendees: 110,
+    maxAttendees: 150,
+    contact: "showcase@worldcinema.org",
+    price: 15.00,
+    isPublic: true,
+    tags: ["International", "Arts", "Cultural", "Entertainment", "Social", "Academic"],
+    type: "In-Person"
+  },
+  {
+    id: "evt-026",
+    title: "Student Bridge Building Competition",
+    body: "Engineering students design, build, and test model bridges for maximum load capacity.",
+    description: "Cheer on teams as they put their engineering skills to the test! Open to spectators.",
+    organizer: "University Engineering Society",
+    date: new Date("2025-05-29T13:00:00"),
+    location: "Engineering Building Atrium",
+    thumbnail: "https://random-image-pepebigotes.vercel.app/api/random-image",
+    attendees: 150,
+    contact: "engsoc@university.edu",
+    isPublic: true,
+    tags: ["Engineering", "STEM", "Academic", "Workshop", "Sports", "Entertainment", "Science"],
+    type: "In-Person"
+  },
+  {
+    id: "evt-027",
+    title: "Workshop: Personal Finance & Budgeting Basics",
+    body: "Take control of your finances! Learn practical budgeting, saving, and debt management strategies.",
+    description: "A beginner-friendly session covering essential financial literacy topics. Materials provided.",
+    organizer: "Community Financial Wellness Center",
+    date: new Date("2025-06-12T18:00:00"),
+    location: "Online via Zoom",
+    thumbnail: "https://random-image-pepebigotes.vercel.app/api/random-image",
+    attendees: 55,
+    maxAttendees: 75,
+    contact: "wellness@cfwc.org",
+    price: 5.00,
+    isPublic: true,
+    tags: ["Finance", "Workshop", "Academic", "Career", "Wellness"],
+    type: "Virtual"
+  },
+  {
+    id: "evt-028",
+    title: "Philosophy Cafe: Ethics in AI",
+    body: "An open, informal discussion exploring the ethical dimensions of artificial intelligence.",
+    description: "Join us for coffee and thoughtful conversation. No prior philosophy background needed, just an inquisitive mind!",
+    organizer: "Think Tank Society",
+    date: new Date("2025-07-09T19:00:00"),
+    location: "The Cozy Corner Cafe",
+    thumbnail: "https://random-image-pepebigotes.vercel.app/api/random-image",
+    attendees: 18,
+    maxAttendees: 30,
+    contact: "philosophy@thinktanksoc.org",
+    isPublic: true,
+    tags: ["Humanities", "Academic", "Social", "Cultural", "Technology"],
+    type: "In-Person"
+  },
+  {
+    id: "evt-029",
+    title: "Community Garden Planting Day",
+    body: "Help us plant vegetables and flowers at the neighborhood community garden.",
+    description: "Get your hands dirty for a good cause! Tools and guidance provided. All ages welcome.",
+    organizer: "Green Thumbs Collective",
+    date: new Date("2025-05-18T10:00:00"),
+    location: "Elm Street Community Garden",
+    thumbnail: "https://random-image-pepebigotes.vercel.app/api/random-image",
+    attendees: 40,
+    contact: "volunteer@greenthumbs.org",
+    isPublic: true,
+    tags: ["Community Service", "Environmental", "Outdoors", "Food", "Social", "Health", "Wellness"],
+    type: "In-Person"
+  },
+  {
+    id: "evt-030",
+    title: "University Research Symposium",
+    body: "Undergraduate and graduate students present their latest research findings.",
+    description: "Poster sessions and short talks across various disciplines - STEM, Humanities, Arts, and Social Sciences.",
+    organizer: "Office of Undergraduate Research",
+    date: new Date("2025-06-06T10:00:00"),
+    location: "University Student Union Ballroom",
+    thumbnail: "https://random-image-pepebigotes.vercel.app/api/random-image",
+    attendees: 250,
+    maxAttendees: 350,
+    contact: "research@university.edu",
+    isPublic: true,
+    tags: ["Research", "Academic", "Science", "STEM", "Humanities", "Engineering", "Networking", "Arts", "Social"],
+    type: "In-Person"
+  },
+  {
+    id: "evt-031",
+    title: "Hiking Club: Sunrise Peak Trail",
+    body: "Join us for a challenging but rewarding 8-mile hike to Sunrise Peak.",
+    description: "Experience stunning views and connect with fellow nature lovers. Bring water, snacks, and appropriate footwear.",
+    organizer: "Trailblazers Hiking Group",
+    date: new Date("2025-08-10T07:00:00"),
+    location: "Sunrise Peak Trailhead",
+    thumbnail: "https://random-image-pepebigotes.vercel.app/api/random-image",
+    attendees: 22,
+    maxAttendees: 30,
+    contact: "hikes@trailblazers.org",
+    isPublic: true,
+    tags: ["Outdoors", "Sports", "Health", "Wellness", "Social", "Environmental"],
+    type: "In-Person"
+  },
+  {
+    id: "evt-032",
+    title: "City Championship Esports Finals",
+    body: "Watch the top local teams battle it out in the finals of the annual League of Legends tournament.",
+    description: "Live casting, giveaways, and intense competitive gaming action. Food and drinks available.",
+    organizer: "City Gaming League",
+    date: new Date("2025-09-20T14:00:00"),
+    location: "Downtown Arena Esports Stage",
+    thumbnail: "https://random-image-pepebigotes.vercel.app/api/random-image",
+    attendees: 450,
+    maxAttendees: 600,
+    contact: "finals@citygaming.com",
+    price: 20.00,
+    isPublic: true,
+    tags: ["Gaming", "Entertainment", "Technology", "Social", "Sports", "Community Service"],
+    type: "In-Person"
+  },
+  {
+    id: "evt-033",
+    title: "Global Cuisine Potluck Dinner",
+    body: "Share a dish from your culture or a culture you admire!",
+    description: "A delicious way to celebrate diversity and connect with neighbors. Please label ingredients for allergies.",
+    organizer: "International Friendship Club",
+    date: new Date("2025-07-20T18:00:00"),
+    location: "Community Center Main Hall",
+    thumbnail: "https://random-image-pepebigotes.vercel.app/api/random-image",
+    attendees: 70,
+    contact: "potluck@ifclub.org",
+    isPublic: true,
+    tags: ["International", "Cultural", "Food", "Social", "Community Service", "Networking"],
+    type: "In-Person"
+  },
+  {
+    id: "evt-034",
+    title: "Climate Action Planning Workshop",
+    body: "Brainstorm and develop local initiatives to address climate change.",
+    description: "A collaborative workshop for residents passionate about environmental sustainability. Facilitated discussion and action planning.",
+    organizer: "Sustainable City Task Force",
+    date: new Date("2025-06-25T18:30:00"),
+    location: "City Hall Council Chambers",
+    thumbnail: "https://random-image-pepebigotes.vercel.app/api/random-image",
+    attendees: 65,
+    maxAttendees: 80,
+    contact: "sustainability@citygov.org",
+    isPublic: true,
+    tags: ["Environmental", "Politics", "Community Service", "Social", "Workshop", "Networking", "Science"],
+    type: "In-Person"
+  },
+  {
+    id: "evt-035",
+    title: "Robotics Club Demo Day & Expo",
+    body: "See amazing robots built by local students and hobbyists in action!",
+    description: "Interactive demonstrations, robot battles, and information booths about joining robotics programs.",
+    organizer: "Metro Robotics Association",
+    date: new Date("2025-08-17T11:00:00"),
+    location: "Science Museum Pavilion",
+    thumbnail: "https://random-image-pepebigotes.vercel.app/api/random-image",
+    attendees: 300,
+    maxAttendees: 500,
+    contact: "expo@metrorobotics.org",
+    price: 5.00,
+    isPublic: true,
+    tags: ["Engineering", "Technology", "STEM", "Academic", "Entertainment", "Workshop", "Science", "Social"],
+    type: "In-Person"
   }
 ];
 

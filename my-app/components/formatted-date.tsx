@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { formatDate } from '@/components/util-functions'; // Adjust path if needed
+import { formatDate } from '@/components/util-functions';
 
 interface FormattedDateProps {
     date: string | number | Date;

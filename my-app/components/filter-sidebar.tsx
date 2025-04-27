@@ -7,8 +7,26 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Slider } from "@/components/ui/slider"
+import {allInterestTags} from "@/components/manage-interests-dialog";
+import {useState} from "react";
 
-export function FilterSidebar() {
+const initialFilters = {
+  tags: [] as string[],
+  startDate: null as string | null,
+  club: "all",
+  distance: 10,
+  eventTypes: [] as string[],
+};
+
+export function FilterSidebar({
+                                filters,
+                                setFilters,
+                              }: {
+  filters: typeof initialFilters;
+  setFilters: React.Dispatch<React.SetStateAction<typeof initialFilters>>;
+}) {
+  const [showAllTags, setShowAllTags] = useState(false);
+
   return (
     <aside className="w-72 border-r bg-white p-6">
       <h2 className="mb-4 text-lg font-semibold text-[#4b2e83]">Filters</h2>
@@ -17,25 +35,35 @@ export function FilterSidebar() {
         <div>
           <h3 className="mb-3 text-sm font-medium text-gray-700">Event Tags</h3>
           <div className="flex flex-wrap gap-2">
-            <Badge variant="outline" className="bg-[#4b2e83]/10 hover:bg-[#4b2e83]/20">
-              Academic
-            </Badge>
-            <Badge variant="outline" className="bg-[#b7a57a]/10 hover:bg-[#b7a57a]/20">
-              Sports
-            </Badge>
-            <Badge variant="outline" className="bg-[#4b2e83]/10 hover:bg-[#4b2e83]/20">
-              Arts
-            </Badge>
-            <Badge variant="outline" className="bg-[#b7a57a]/10 hover:bg-[#b7a57a]/20">
-              Social
-            </Badge>
-            <Badge variant="outline" className="bg-[#4b2e83]/10 hover:bg-[#4b2e83]/20">
-              Career
-            </Badge>
-            <Badge variant="outline" className="bg-[#b7a57a]/10 hover:bg-[#b7a57a]/20">
-              Workshop
-            </Badge>
+            {(showAllTags ? allInterestTags : allInterestTags.slice(0, 6)).map((tag) => (
+                <Badge
+                    key={tag}
+                    onClick={() => {
+                      if (filters.tags.includes(tag)) {
+                        setFilters(prev => ({ ...prev, tags: prev.tags.filter(t => t !== tag) }));
+                      } else {
+                        setFilters(prev => ({ ...prev, tags: [...prev.tags, tag] }));
+                      }
+                    }}
+                    variant="outline"
+                    className={`hover:cursor-pointer ${
+                        filters.tags.includes(tag)
+                            ? "bg-[#4b2e83]/10 text-[#4b2e83] hover:bg-[#4b2e83]/20 border-[#4b2e83]"
+                            : "bg-[#4b2e83]/10 text-[#4b2e83] hover:bg-[#4b2e83]/20"
+                    }`}
+                >
+                  {tag}
+                </Badge>
+            ))}
           </div>
+          {allInterestTags.length > 6 && (
+              <p
+                  onClick={() => setShowAllTags(!showAllTags)}
+                  className="mt-3 text-xs font-medium text-[#4b2e83] hover:underline hover:cursor-pointer select-none"
+              >
+                {showAllTags ? "Show Less" : "Show More"}
+              </p>
+          )}
         </div>
 
         <div>
@@ -76,28 +104,25 @@ export function FilterSidebar() {
         <div>
           <h3 className="mb-3 text-sm font-medium text-gray-700">Event Type</h3>
           <div className="space-y-2">
-            <div className="flex items-center space-x-2">
-              <Checkbox id="in-person" />
-              <Label htmlFor="in-person" className="text-sm">
-                In-Person
-              </Label>
-            </div>
-            <div className="flex items-center space-x-2">
-              <Checkbox id="virtual" />
-              <Label htmlFor="virtual" className="text-sm">
-                Virtual
-              </Label>
-            </div>
-            <div className="flex items-center space-x-2">
-              <Checkbox id="hybrid" />
-              <Label htmlFor="hybrid" className="text-sm">
-                Hybrid
-              </Label>
-            </div>
+            {["In-Person", "Virtual", "Hybrid"].map((type) => (
+                <div key={type} className="flex items-center space-x-2">
+                  <Checkbox
+                      id={type}
+                      checked={filters.eventTypes.includes(type)}
+                      onCheckedChange={(checked) => {
+                        setFilters(prev => ({
+                          ...prev,
+                          eventTypes: checked
+                              ? [...prev.eventTypes, type]
+                              : prev.eventTypes.filter(t => t !== type),
+                        }));
+                      }}
+                  />
+                  <Label htmlFor={type} className="text-sm">{type}</Label>
+                </div>
+            ))}
           </div>
         </div>
-
-        <Button className="w-full bg-[#4b2e83] hover:bg-[#4b2e83]/90">Apply Filters</Button>
       </div>
     </aside>
   )

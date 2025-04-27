@@ -17,10 +17,25 @@ const EVENTS_PER_PAGE = 6;
 
 export default function EventsPortal() {
     const [currentPage, setCurrentPage] = useState(1);
+    const [filters, setFilters] = useState({
+        tags: [] as string[],
+        startDate: null as string | null,
+        club: "all",
+        distance: 10,
+        eventTypes: [] as string[],
+    });
 
-    const totalPages = Math.ceil(testEvents.length / EVENTS_PER_PAGE);
+    const filteredEvents = testEvents.filter(event => {
+        if (filters.tags.length > 0 && (!event.tags || !event.tags.some(tag => filters.tags.includes(tag)))) return false;
+        if (filters.startDate && new Date(event.date) < new Date(filters.startDate)) return false;
+        if (filters.club !== "all" && (!event.organizer?.toLowerCase().includes(filters.club))) return false;
+        if (filters.eventTypes.length > 0 && (!event.type || !filters.eventTypes.includes(event.type))) return false;
+        return true;
+    });
 
-    const paginatedEvents = testEvents.slice(
+    const totalPages = Math.ceil(filteredEvents.length / EVENTS_PER_PAGE);
+
+    const paginatedEvents = filteredEvents.slice(
         (currentPage - 1) * EVENTS_PER_PAGE,
         currentPage * EVENTS_PER_PAGE
     );
@@ -32,50 +47,60 @@ export default function EventsPortal() {
 
     return (
         <div className="flex flex-1">
-            <FilterSidebar />
+            <FilterSidebar filters={filters} setFilters={setFilters} />
             <main className="flex-1 p-6">
                 <h1 className="mb-6 text-2xl font-bold text-[#4b2e83]">
                     Discover Upcoming Events
                 </h1>
 
+                {/* Events */}
                 <div className="space-y-4">
-                    {paginatedEvents.map((event) => (
-                        <EventCard key={event.id} event={event} />
-                    ))}
+                    {paginatedEvents.length > 0 ? (
+                        paginatedEvents.map((event) => (
+                            <EventCard key={event.id} event={event} />
+                        ))
+                    ) : (
+                        <div className="flex flex-col items-center justify-center py-20 text-center text-gray-500">
+                            <p className="text-xl font-semibold mb-2">No events found</p>
+                            <p className="text-sm">Try adjusting your filters to find more events.</p>
+                        </div>
+                    )}
                 </div>
 
                 {/* Pagination Controls */}
-                <div className="mt-8 flex justify-center">
-                    <Pagination>
-                        <PaginationContent>
-                            <PaginationItem>
-                                <PaginationPrevious
-                                    onClick={() => goToPage(Math.max(currentPage - 1, 1))}
-                                    className={currentPage === 1 ? "pointer-events-none  opacity-50" : "hover:cursor-pointer"}
-                                />
-                            </PaginationItem>
-
-                            {Array.from({ length: totalPages }, (_, i) => (
-                                <PaginationItem key={i}>
-                                    <PaginationLink
-                                        className="hover:cursor-pointer"
-                                        isActive={currentPage === i + 1}
-                                        onClick={() => goToPage(i + 1)}
-                                    >
-                                        {i + 1}
-                                    </PaginationLink>
+                {totalPages > 1 && paginatedEvents.length > 0 && (
+                    <div className="mt-8 flex justify-center">
+                        <Pagination>
+                            <PaginationContent>
+                                <PaginationItem>
+                                    <PaginationPrevious
+                                        onClick={() => goToPage(Math.max(currentPage - 1, 1))}
+                                        className={currentPage === 1 ? "pointer-events-none opacity-50" : "hover:cursor-pointer"}
+                                    />
                                 </PaginationItem>
-                            ))}
 
-                            <PaginationItem>
-                                <PaginationNext
-                                    onClick={() => goToPage(Math.min(currentPage + 1, totalPages))}
-                                    className={currentPage === totalPages ? "pointer-events-none opacity-50" : "hover:cursor-pointer"}
-                                />
-                            </PaginationItem>
-                        </PaginationContent>
-                    </Pagination>
-                </div>
+                                {Array.from({ length: totalPages }, (_, i) => (
+                                    <PaginationItem key={i}>
+                                        <PaginationLink
+                                            className="hover:cursor-pointer"
+                                            isActive={currentPage === i + 1}
+                                            onClick={() => goToPage(i + 1)}
+                                        >
+                                            {i + 1}
+                                        </PaginationLink>
+                                    </PaginationItem>
+                                ))}
+
+                                <PaginationItem>
+                                    <PaginationNext
+                                        onClick={() => goToPage(Math.min(currentPage + 1, totalPages))}
+                                        className={currentPage === totalPages ? "pointer-events-none opacity-50" : "hover:cursor-pointer"}
+                                    />
+                                </PaginationItem>
+                            </PaginationContent>
+                        </Pagination>
+                    </div>
+                )}
             </main>
         </div>
     );

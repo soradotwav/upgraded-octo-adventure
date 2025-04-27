@@ -18,7 +18,7 @@ import { ScrollArea } from "@/components/ui/scroll-area"
 import {toast} from "sonner";
 import {useUser} from "@/hooks/useUser";
 
-const allInterestTags = [
+export const allInterestTags = [
   "Academic",
   "Arts",
   "Career",
