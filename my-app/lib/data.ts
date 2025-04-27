@@ -1,5 +1,14 @@
 import {EventObject} from "@/lib/models/events";
 
+export type UserType = {
+  name: string;
+  major: string;
+  year: string;
+  avatar: string;
+  interests: string[];
+  organizations: string[];
+};
+
 export const testEvents: EventObject[] = [
   {
     id: "evt-001",
