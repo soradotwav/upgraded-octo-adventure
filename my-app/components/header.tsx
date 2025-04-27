@@ -126,8 +126,8 @@ export function Header() {
               <DropdownMenuLabel>My Account</DropdownMenuLabel>
               <DropdownMenuSeparator />
               {user ? <>
-                <DropdownMenuItem className="hover:cursor-pointer">Profile</DropdownMenuItem>
-                <DropdownMenuItem className="hover:cursor-pointer">My Events</DropdownMenuItem>
+                <DropdownMenuItem className="hover:cursor-pointer" onClick={() => router.push('/')}>Profile</DropdownMenuItem>
+                <DropdownMenuItem className="hover:cursor-pointer" onClick={() => router.push('/')}>My Events</DropdownMenuItem>
                 <DropdownMenuItem className="hover:cursor-pointer">Settings</DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem className="hover:cursor-pointer" onClick={logout}>Log out</DropdownMenuItem>
