@@ -1,5 +1,4 @@
 "use client"
-import { cookies } from "next/headers";
 import {testEvents, testStudent} from "@/lib/data";
 import {Button} from "@/components/ui/button";
 import Link from "next/link";
@@ -15,21 +14,14 @@ import {useState} from "react";
 import ManageInterestsDialog from "@/components/manage-interests-dialog";
 import {useUser} from "@/hooks/useUser";
 
-export default async function HomePage() {
-    const cookieStore = await cookies();
-    const log = (await cookieStore).get("user-login-token");
+export default function HomePage() {
+    const { user, setUser } = useUser();
 
-    console.log(log);
-
-    if (log === null || log === undefined) {
-        return DefaultHomePage();
-    }
-
-    if (log.value === "true") {
-        return UserHomePage();
-    }
-
-    return DefaultHomePage();
+    return (
+        <>
+            {user ? <UserHomePage /> : <DefaultHomePage />}
+        </>
+    );
 }
 
 function DefaultHomePage() {

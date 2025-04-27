@@ -15,10 +15,25 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Badge } from "@/components/ui/badge"
 import { useRouter } from "next/navigation";
-import { setLogin } from "@/lib/login"
+import {useUser} from "@/hooks/useUser";
+import {useState} from "react";
+import {AuthModal} from "@/components/auth-modal";
 
 export function Header() {
   const router = useRouter();
+  const {user, setUser, logout} = useUser();
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false)
+  const [authModalTab, setAuthModalTab] = useState<"login" | "signup">("login")
+
+  const openLoginModal = () => {
+    setAuthModalTab("login")
+    setIsAuthModalOpen(true)
+  }
+
+  const openSignupModal = () => {
+    setAuthModalTab("signup")
+    setIsAuthModalOpen(true)
+  }
 
   return (
     <header className="sticky top-0 z-10 h-16 border-b bg-white px-4 shadow-sm">
@@ -110,34 +125,17 @@ export function Header() {
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>My Account</DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>Profile</DropdownMenuItem>
-              <DropdownMenuItem>My Events</DropdownMenuItem>
-              <DropdownMenuItem>Settings</DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <div
-                className="space-y-2 p-3"
-              >
-                <Input
-                  type="email"
-                  name="email"
-                  placeholder="Email"
-                  className="w-full"
-                />
-                <Input
-                  type="password"
-                  name="password"
-                  placeholder="Password"
-                  className="w-full"
-                />
-                <div className="flex space-x-2">
-                  <Button onClick={() => setLogin("true")} size="sm" className="flex-1">
-                    Login
-                  </Button>
-                  <Button onClick={() => setLogin("false")} size="sm" className="flex-1">
-                    Sign Out
-                  </Button>
-                </div>
-              </div>
+              {user ? <>
+                <DropdownMenuItem className="hover:cursor-pointer">Profile</DropdownMenuItem>
+                <DropdownMenuItem className="hover:cursor-pointer">My Events</DropdownMenuItem>
+                <DropdownMenuItem className="hover:cursor-pointer">Settings</DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem className="hover:cursor-pointer" onClick={logout}>Log out</DropdownMenuItem>
+              </> :
+              <>
+                <DropdownMenuItem className="hover:cursor-pointer" onClick={openLoginModal}>Log in</DropdownMenuItem>
+                <DropdownMenuItem className="hover:cursor-pointer" onClick={openSignupModal}>Sign up</DropdownMenuItem>
+              </>}
             </DropdownMenuContent>
           </DropdownMenu>
 
@@ -148,6 +146,8 @@ export function Header() {
           </Button>
         </div>
       </div>
+      {/* Auth Modal */}
+      <AuthModal open={isAuthModalOpen} onOpenChange={setIsAuthModalOpen} defaultTab={authModalTab} />
     </header>
   )
 }

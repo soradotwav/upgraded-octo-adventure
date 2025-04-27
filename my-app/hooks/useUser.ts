@@ -3,6 +3,8 @@
 import { useState, useEffect } from "react";
 import {UserType} from "@/lib/data";
 import {loadUserFromLocalStorage, saveUserToLocalStorage} from "@/lib/utils";
+import { removeUserFromLocalStorage } from "@/lib/utils";
+import {useRouter} from "next/navigation";
 
 export function useUser() {
     const [user, setUser] = useState<UserType | null>(null);
@@ -14,12 +16,17 @@ export function useUser() {
         }
     }, []);
 
-    // Every time the user changes, re-save it
     useEffect(() => {
         if (user) {
             saveUserToLocalStorage(user);
         }
     }, [user]);
 
-    return { user, setUser };
+    function logout() {
+        setUser(null);
+        removeUserFromLocalStorage();
+        window.location.reload();
+    }
+
+    return { user, setUser, logout };
 }

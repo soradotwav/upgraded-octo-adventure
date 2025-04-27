@@ -28,3 +28,9 @@ export function loadUserFromLocalStorage(): UserType | null {
   }
   return null;
 }
+
+export function removeUserFromLocalStorage() {
+  if (typeof window !== "undefined") {
+    localStorage.removeItem("user");
+  }
+}
