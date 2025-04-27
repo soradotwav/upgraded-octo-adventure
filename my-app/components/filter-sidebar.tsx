@@ -10,7 +10,7 @@ import { Slider } from "@/components/ui/slider"
 
 export function FilterSidebar() {
   return (
-    <aside className="w-72 border-r bg-white p-6">
+    <aside className="w-72 border-r bg-white p-6 sticky top-16 h-fit">
       <h2 className="mb-4 text-lg font-semibold text-[#4b2e83]">Filters</h2>
 
       <div className="space-y-6">
